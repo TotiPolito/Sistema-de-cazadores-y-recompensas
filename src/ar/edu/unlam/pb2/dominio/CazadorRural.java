@@ -1,6 +1,6 @@
 package ar.edu.unlam.pb2.dominio;
 
-public class CazadorRural extends Cazador{
+public class CazadorRural extends Cazador {
 
 	public CazadorRural(Integer nivelDeExperiencia) {
 		super(nivelDeExperiencia);

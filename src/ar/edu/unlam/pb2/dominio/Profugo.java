@@ -2,15 +2,22 @@ package ar.edu.unlam.pb2.dominio;
 
 public class Profugo {
 
+	private String nombre;
 	private Integer nivelDeInocencia;
 	private Integer nivelDeHabilidad;
 	private Boolean esNervioso;
-	
-	public Profugo (Integer nivelDeInocencia, Integer nivelDeHabilidad, Boolean esNervioso) {
+
+	public Profugo(String nombre, Integer nivelDeInocencia, Integer nivelDeHabilidad, Boolean esNervioso) {
+		this.nombre = nombre;
 		this.nivelDeInocencia = nivelDeInocencia;
 		this.nivelDeHabilidad = nivelDeHabilidad;
 		this.esNervioso = esNervioso;
 	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
 
 	public Integer getNivelDeInocencia() {
 		return nivelDeInocencia;
@@ -27,13 +34,13 @@ public class Profugo {
 	public void setEsNervioso(Boolean esNervioso) {
 		this.esNervioso = esNervioso;
 	}
-	
+
 	public void reducirInocencia(Integer valor) {
 		nivelDeInocencia = Math.max(0, nivelDeInocencia - valor);
 	}
-	
+
 	public void reducirHabilidad(Integer valor) {
 		nivelDeHabilidad = Math.max(0, nivelDeHabilidad - valor);
 	}
-	
+
 }
