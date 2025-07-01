@@ -9,7 +9,7 @@ public class Zona {
 	private List<Profugo> profugos;
 
 	public Zona(String nombre) {
-		this.nombre = nombre;
+		this.setNombre(nombre);
 		this.profugos = new ArrayList<>();
 	}
 
@@ -21,14 +21,27 @@ public class Zona {
 		return profugos;
 	}
 
-	public Boolean ExisteProfugoConNombre(Profugo profugo1) {
-
+	public void EliminarProfugo(Profugo profugo) {
+		profugos.remove(profugo);
+	}
+	
+	public Profugo buscarProfugoPorNombre(String nombre) {
+		
+		Profugo profugoBuscado = null;
 		for (Profugo profugo : profugos) {
-			if (profugo.getNombre().equals(profugo1.getNombre())) {
-				return true;
+			if (profugo.getNombre().equals(nombre)) {
+				profugoBuscado = profugo;
 			}
 		}
-		return false;
+		return profugoBuscado;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 }

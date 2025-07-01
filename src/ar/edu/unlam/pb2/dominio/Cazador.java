@@ -52,7 +52,8 @@ public abstract class Cazador {
 
 	private void eliminarProfugosCapturados(Zona zona, List<Profugo> capturadosZona) {
 		for (int i = 0; i < capturadosZona.size(); i++) {
-			zona.getProfugos().remove(capturadosZona.get(i));
+			zona.EliminarProfugo(capturadosZona.get(i));
+
 		}
 	}
 
@@ -80,7 +81,4 @@ public abstract class Cazador {
 		return capturados;
 	}
 
-	public void sumarExperiencia(Integer capturas, Integer minHabilidadIntimidados) {
-		nivelDeExperiencia += minHabilidadIntimidados + (2 * capturas);
-	}
 }

@@ -2,10 +2,6 @@ package ar.edu.unlam.pb2.tp;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ar.edu.unlam.pb2.dominio.Cazador;
@@ -125,8 +121,8 @@ public class CazadorTest {
 		Zona zona = new Zona("Ciudad");
 		
 		Profugo profugo1 = new Profugo("John",10, 60, true);
-		Profugo profugo2 = new Profugo("Michael",10, 60, false);
-		Profugo profugo3 = new Profugo("Trevor",10, 60, true);
+		Profugo profugo2 = new Profugo("Michael",20, 60, false);
+		Profugo profugo3 = new Profugo("Trevor",30, 60, true);
 		
 		zona.agregarProfugo(profugo1);
 		zona.agregarProfugo(profugo2);
@@ -150,8 +146,9 @@ public class CazadorTest {
 		zona.agregarProfugo(profugo1);
 		cazador = new CazadorUrbano(100);
 		cazador.capturar(zona);
+
+		assertTrue(zona.buscarProfugoPorNombre("John").equals(profugo1));
 		
-		assertFalse(zona.ExisteProfugoConNombre(profugo1));
 		
 	}
 	

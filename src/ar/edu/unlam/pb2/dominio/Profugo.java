@@ -22,7 +22,7 @@ public class Profugo {
 	}
 
 	public Integer getNivelDeInocencia() {
-		if (tieneProteccionLegal) {
+		if (this.tieneProteccionLegal) {
 			return Math.max(nivelDeInocencia, 40);
 		}
 		return nivelDeInocencia;
@@ -40,6 +40,18 @@ public class Profugo {
 			return false;
 		}
 		return esNervioso;
+	}
+
+	public boolean getTieneArtesMarciales() {
+		return tieneArtesMarciales;
+	}
+
+	public boolean getTieneEntrenamientoElite() {
+		return tieneEntrenamientoElite;
+	}
+
+	public boolean getTieneProteccionLegal() {
+		return tieneProteccionLegal;
 	}
 
 	public void aplicarArtesMarciales() {
