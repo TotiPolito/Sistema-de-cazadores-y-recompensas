@@ -6,6 +6,9 @@ public class Profugo {
 	private Integer nivelDeInocencia;
 	private Integer nivelDeHabilidad;
 	private Boolean esNervioso;
+	private boolean tieneArtesMarciales = false;
+	private boolean tieneEntrenamientoElite = false;
+	private boolean tieneProteccionLegal = false;
 
 	public Profugo(String nombre, Integer nivelDeInocencia, Integer nivelDeHabilidad, Boolean esNervioso) {
 		this.nombre = nombre;
@@ -18,17 +21,37 @@ public class Profugo {
 		return nombre;
 	}
 
-
 	public Integer getNivelDeInocencia() {
+		if (tieneProteccionLegal) {
+			return Math.max(nivelDeInocencia, 40);
+		}
 		return nivelDeInocencia;
 	}
 
 	public Integer getNivelDeHabilidad() {
+		if (tieneArtesMarciales) {
+			return Math.min(nivelDeHabilidad * 2, 100);
+		}
 		return nivelDeHabilidad;
 	}
 
 	public Boolean getEsNervioso() {
+		if (tieneEntrenamientoElite) {
+			return false;
+		}
 		return esNervioso;
+	}
+
+	public void aplicarArtesMarciales() {
+		tieneArtesMarciales = true;
+	}
+
+	public void aplicarEntrenamientoElite() {
+		tieneEntrenamientoElite = true;
+	}
+
+	public void aplicarProteccionLegal() {
+		tieneProteccionLegal = true;
 	}
 
 	public void setEsNervioso(Boolean esNervioso) {
