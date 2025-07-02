@@ -131,12 +131,8 @@ public class CazadorTest {
 		cazador = new CazadorUrbano(100);
 		cazador.capturar(zona);
 		
-		// experiencia += (Mínimo valor de habilidad entre todos los intimidados) + (2 * prófugos capturados)
-		// 100 += (     ) + ( 2 x 3 )
-		// 100 +=  X + 6
 		assertEquals(cazador.getExperiencia(), Integer.valueOf(162));
 		
-
 	}
 	
 	@Test

@@ -7,12 +7,14 @@ import org.junit.Test;
 import ar.edu.unlam.pb2.dominio.Cazador;
 import ar.edu.unlam.pb2.dominio.CazadorRural;
 import ar.edu.unlam.pb2.dominio.CazadorSigiloso;
+import ar.edu.unlam.pb2.dominio.EntrenamientoInvalidoException;
+import ar.edu.unlam.pb2.dominio.HabilidadExcedidaException;
 import ar.edu.unlam.pb2.dominio.Profugo;
 
 public class ProfugoTest {
 	
 	@Test
-	public void queUnProfugoPuedeEntrenarArtesMarcialesMixtasYSuNivelDeHabilidadSeDuplicaDe30a60() {
+	public void queUnProfugoPuedeEntrenarArtesMarcialesMixtasYSuNivelDeHabilidadSeDuplicaDe30a60() throws HabilidadExcedidaException {
 
 		Profugo profugo = new Profugo("John", 20, 30, false);
 		profugo.aplicarArtesMarciales();
@@ -33,7 +35,7 @@ public class ProfugoTest {
 		
 	}
 	@Test
-	public void queUnProfugoPuedeTenerProteccionLegalYSuInocenciaNoDisminuyeDe40() {
+	public void queUnProfugoPuedeTenerProteccionLegalYSuInocenciaNoDisminuyeDe40() throws EntrenamientoInvalidoException {
 		Cazador cazador = new CazadorSigiloso(10);
 		//									nivel de inocencia 40
 		Profugo profugo = new Profugo("John", 40, 40, false);
@@ -49,9 +51,9 @@ public class ProfugoTest {
 	}
 	
 	@Test
-	public void queUnProfugoPuedeHacerTodosLosEntrenamientosYAcumularHabilidades() {
+	public void queUnProfugoPuedeHacerTodosLosEntrenamientosYAcumularHabilidades() throws HabilidadExcedidaException, EntrenamientoInvalidoException {
 
-		Profugo profugo = new Profugo("John", 20, 20, false);
+		Profugo profugo = new Profugo("John", 40, 40, false);
 		profugo.aplicarArtesMarciales();
 		profugo.aplicarEntrenamientoElite();
 		profugo.aplicarProteccionLegal();
@@ -62,9 +64,22 @@ public class ProfugoTest {
 		cazador.intimidar(profugo);
 		cazador2.intimidar(profugo);
 		
-		// deberia tener 35 de nivel de habilidad a pesar de que lo intimidamos despues de duplicarla
-		assertEquals(Integer.valueOf(35), profugo.getNivelDeHabilidad());
+		assertEquals(Integer.valueOf(75), profugo.getNivelDeHabilidad());
 		assertFalse(profugo.getEsNervioso());		
+	}
+	
+	@Test (expected = HabilidadExcedidaException.class)
+	public void queNoSePuedaAplicarArtesMarcialesSiSuperaHabilidadMaxima() throws HabilidadExcedidaException {
+	    Profugo profugo = new Profugo("Luis", 10, 60, true);
+	    profugo.aplicarArtesMarciales(); // 60 * 2 = 120 → excepción
+   
+	}
+	
+	@Test (expected = EntrenamientoInvalidoException.class)
+	public void queNoSePuedaAplicarProteccionLegalSiLaInocenciaEsMenorA40() throws HabilidadExcedidaException, EntrenamientoInvalidoException {
+	    Profugo profugo = new Profugo("Luis", 10, 30, true);
+	    profugo.aplicarProteccionLegal();
+   
 	}
 	
 }

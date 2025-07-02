@@ -29,9 +29,9 @@ public class Profugo {
 	}
 
 	public Integer getNivelDeHabilidad() {
-		if (tieneArtesMarciales) {
-			return Math.min(nivelDeHabilidad * 2, 100);
-		}
+//		if (tieneArtesMarciales) {
+//			return Math.min(nivelDeHabilidad * 2, 100);
+//		}
 		return nivelDeHabilidad;
 	}
 
@@ -54,16 +54,24 @@ public class Profugo {
 		return tieneProteccionLegal;
 	}
 
-	public void aplicarArtesMarciales() {
+	public void aplicarArtesMarciales() throws HabilidadExcedidaException {
+		if (nivelDeHabilidad * 2 > 100) {
+			throw new HabilidadExcedidaException("No se puede aplicar artes marciales porque Habilidad superaria los 100");
+		}
+		this.nivelDeHabilidad *= 2 ;
 		tieneArtesMarciales = true;
 	}
 
 	public void aplicarEntrenamientoElite() {
 		tieneEntrenamientoElite = true;
+		esNervioso = false;
 	}
 
-	public void aplicarProteccionLegal() {
-		tieneProteccionLegal = true;
+	public void aplicarProteccionLegal() throws EntrenamientoInvalidoException{
+		if (this.nivelDeInocencia < 40) {
+			throw new EntrenamientoInvalidoException("Para hacer este entrenamiento el nivel de inocencia debe estar sobre 40");
+		}
+		tieneProteccionLegal = true;	
 	}
 
 	public void setEsNervioso(Boolean esNervioso) {
