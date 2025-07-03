@@ -21,23 +21,8 @@ public class Zona {
 		return profugos;
 	}
 
-	public void EliminarProfugo(Profugo profugo) {
+	public void eliminarProfugo(Profugo profugo) {
 		profugos.remove(profugo);
-	}
-	
-	public Profugo buscarProfugoPorNombre(String nombre) {
-		
-		Profugo profugoBuscado = null;
-		for (Profugo profugo : profugos) {
-			if (profugo.getNombre().equals(nombre)) {
-				profugoBuscado = profugo;
-			}
-		}
-		return profugoBuscado;
-	}
-
-	public String getNombre() {
-		return nombre;
 	}
 
 	public void setNombre(String nombre) {

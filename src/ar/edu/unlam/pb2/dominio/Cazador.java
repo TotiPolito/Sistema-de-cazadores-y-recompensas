@@ -18,27 +18,23 @@ public abstract class Cazador {
 
 	public void capturar(Zona zona) {
 
-		//Conjunto de profugos que habitan la zona
 		List<Profugo> listaProfugos = zona.getProfugos();
 		List<Profugo> intimidados = new ArrayList<>();
 		List<Profugo> capturadosZona = new ArrayList<>();
 
-		// Recorro el array de profugos intentando capturar a cada uno
 		intentoCapturaProfugos(listaProfugos, intimidados, capturadosZona);
 
-		//Recorro array de profugos de la zona eliminando a los capturados
 		eliminarProfugosCapturados(zona, capturadosZona);
 
-		//Sumar experiencia al Cazador
 		sumarExperiencia(intimidados, capturadosZona);
 	}
 
 	private void sumarExperiencia(List<Profugo> intimidados, List<Profugo> capturadosZona) {
 		int minHabilidad = Integer.MAX_VALUE;
-		
+
 		for (int i = 0; i < intimidados.size(); i++) {
 			int habilidad = intimidados.get(i).getNivelDeHabilidad();
-			
+
 			if (habilidad < minHabilidad) {
 				minHabilidad = habilidad;
 			}
@@ -52,17 +48,16 @@ public abstract class Cazador {
 
 	private void eliminarProfugosCapturados(Zona zona, List<Profugo> capturadosZona) {
 		for (int i = 0; i < capturadosZona.size(); i++) {
-			zona.EliminarProfugo(capturadosZona.get(i));
-
+			zona.eliminarProfugo(capturadosZona.get(i));
 		}
 	}
 
 	private void intentoCapturaProfugos(List<Profugo> listaProfugos, List<Profugo> intimidados,
-										List<Profugo> capturadosZona) {
+			List<Profugo> capturadosZona) {
 
 		for (int i = 0; i < listaProfugos.size(); i++) {
 			Profugo profugo = listaProfugos.get(i);
-			
+
 			if (this.nivelDeExperiencia > profugo.getNivelDeInocencia() && puedeCapturar(profugo)) {
 				capturados.add(profugo);
 				capturadosZona.add(profugo);

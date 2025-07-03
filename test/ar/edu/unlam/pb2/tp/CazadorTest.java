@@ -2,6 +2,7 @@ package ar.edu.unlam.pb2.tp;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unlam.pb2.dominio.Cazador;
@@ -13,139 +14,148 @@ import ar.edu.unlam.pb2.dominio.Zona;
 
 public class CazadorTest {
 
-	private Cazador cazador;
+	private Cazador cazadorUrbano;
+	private Cazador cazadorSigiloso;
+	private Cazador cazadorRural;
 	private Profugo profugo;
+	private Profugo profugo1;
+	private Profugo profugo2;
+	private Profugo profugo3;
+	private Zona zona;
+
+	@Before
+	public void setUp() {
+		zona = new Zona("Ciudad");
+		cazadorUrbano = new CazadorUrbano(100);
+		cazadorSigiloso = new CazadorSigiloso(100);
+		cazadorRural = new CazadorRural(100);
+		profugo = new Profugo("John", 10, 60, false);
+		profugo1 = new Profugo("Brian", 10, 60, true);
+		profugo2 = new Profugo("Michael", 20, 60, false);
+		profugo3 = new Profugo("Trevor", 30, 60, false);
+	}
 
 	@Test
 	public void queUnCazadorNoCaptureAUnProfugoConMayorInocencia() {
-		Cazador cazador = new CazadorUrbano(50);
-		Profugo profugo = new Profugo("John", 80, 30, false);
-		Zona zona = new Zona("Zona A");
+		cazadorUrbano = new CazadorUrbano(50);
+		profugo = new Profugo("John", 80, 30, false);
+		zona = new Zona("Zona A");
 		zona.agregarProfugo(profugo);
 
-		cazador.capturar(zona);
+		cazadorUrbano.capturar(zona);
 
-		assertFalse(cazador.getCapturados().contains(profugo));
+		assertFalse(cazadorUrbano.getCapturados().contains(profugo));
 		assertTrue(zona.getProfugos().contains(profugo)); // no fue removido
 	}
 
 	@Test
 	public void queUnCazadorSigilosoCaptureAUnProfugoQuePuedaCapturar() {
-		cazador = new CazadorSigiloso(100);
-		profugo = new Profugo("John",10, 40, false);
-		assertTrue(cazador.puedeCapturar(profugo));
+		profugo = new Profugo("John", 10, 40, false);
+		assertTrue(cazadorSigiloso.puedeCapturar(profugo));
 	}
 
 	@Test
 	public void queUnCazadorSigilosoNoCaptureAUnProfugoQuePuedaCapturar() {
-		cazador = new CazadorSigiloso(100);
-		profugo = new Profugo("John",10, 60, false);
-		assertFalse(cazador.puedeCapturar(profugo));
+		assertFalse(cazadorSigiloso.puedeCapturar(profugo));
 	}
 
 	@Test
 	public void queUnCazadorUrbanoCaptureAUnProfugoQuePuedaCapturar() {
-		cazador = new CazadorUrbano(100);
-		profugo = new Profugo("John",10, 60, false);
-		assertTrue(cazador.puedeCapturar(profugo));
+		assertTrue(cazadorUrbano.puedeCapturar(profugo));
 	}
 
 	@Test
 	public void queUnCazadorUrbanoNoCaptureAUnProfugoQuePuedaCapturar() {
-		cazador = new CazadorUrbano(100);
-		profugo = new Profugo("John",10, 60, true);
-		assertFalse(cazador.puedeCapturar(profugo));
+		assertFalse(cazadorUrbano.puedeCapturar(profugo1));
 	}
 
 	@Test
 	public void queUnCazadorRuralCaptureAUnProfugoQuePuedaCapturar() {
-		cazador = new CazadorRural(100);
-		profugo = new Profugo("John",10, 60, true);
-		assertTrue(cazador.puedeCapturar(profugo));
+		assertTrue(cazadorRural.puedeCapturar(profugo1));
 	}
 
 	@Test
 	public void queUnCazadorRuralNoCaptureAUnProfugoQuePuedaCapturar() {
-		cazador = new CazadorRural(100);
-		profugo = new Profugo("John",10, 60, false);
-		assertFalse(cazador.puedeCapturar(profugo));
+		assertFalse(cazadorRural.puedeCapturar(profugo));
 	}
 
 	@Test
 	public void queUnCazadorIntimideYDisminuyaElNivelDeInocenciaDelProfugo() {
-		Cazador cazador1 = new CazadorSigiloso(90);
-		Cazador cazador2 = new CazadorUrbano(90);
-		Cazador cazador3 = new CazadorRural(90);
+		cazadorSigiloso = new CazadorSigiloso(90);
+		cazadorUrbano = new CazadorUrbano(90);
+		cazadorRural = new CazadorRural(90);
 
-		Profugo profugo1 = new Profugo("John", 12, 60, false);
+		profugo = new Profugo("John", 12, 60, false);
 
-		cazador1.intimidar(profugo1);
-		assertEquals(Integer.valueOf(10), profugo1.getNivelDeInocencia());
+		cazadorSigiloso.intimidar(profugo);
+		assertEquals(Integer.valueOf(10), profugo.getNivelDeInocencia());
 
-		cazador2.intimidar(profugo1);
-		assertEquals(Integer.valueOf(8), profugo1.getNivelDeInocencia());
+		cazadorUrbano.intimidar(profugo);
+		assertEquals(Integer.valueOf(8), profugo.getNivelDeInocencia());
 
-		cazador3.intimidar(profugo1);
-		assertEquals(Integer.valueOf(6), profugo1.getNivelDeInocencia());
+		cazadorRural.intimidar(profugo);
+		assertEquals(Integer.valueOf(6), profugo.getNivelDeInocencia());
 
 	}
 
 	@Test
 	public void queUnCazadorSigilosoIntimideYLaHabilidadDelProfugoDisminuyaEn5Unidades() {
-		cazador = new CazadorSigiloso(100);
-		profugo = new Profugo("John", 10, 60, false);
-		cazador.intimidar(profugo);
+		cazadorSigiloso = new CazadorSigiloso(100);
+		cazadorSigiloso.intimidar(profugo);
 		Integer obtenido = profugo.getNivelDeHabilidad();
 		assertEquals(Integer.valueOf(55), obtenido);
 	}
 
 	@Test
 	public void queUnCazadorUrbanoIntimideYElProfugoDejeDeSerNervioso() {
-		cazador = new CazadorUrbano(100);
-		profugo = new Profugo("John", 10, 60, true);
-		cazador.intimidar(profugo);
+		cazadorUrbano.intimidar(profugo1);
 		assertFalse(profugo.getEsNervioso());
 	}
 
 	@Test
 	public void queUnCazadorRuralIntimideYElProfugoSeVuelvaNervioso() {
-		cazador = new CazadorRural(100);
-		profugo = new Profugo("John", 10, 60, true);
-		cazador.intimidar(profugo);
+		cazadorRural.intimidar(profugo);
 		assertTrue(profugo.getEsNervioso());
 
 	}
-	
+
 	@Test
 	public void queUnCazadorCapturaATodosLosProfugosEnUnaZonaConExito() {
-		Zona zona = new Zona("Ciudad");
-		
-		Profugo profugo1 = new Profugo("John",10, 60, true);
-		Profugo profugo2 = new Profugo("Michael",20, 60, false);
-		Profugo profugo3 = new Profugo("Trevor",30, 60, true);
-		
+		zona.agregarProfugo(profugo);
+		zona.agregarProfugo(profugo2);
+		zona.agregarProfugo(profugo3);
+
+		cazadorUrbano.capturar(zona);
+
+		assertEquals(Integer.valueOf(106), cazadorUrbano.getExperiencia());
+		assertTrue(cazadorUrbano.getCapturados().contains(profugo));
+		assertTrue(cazadorUrbano.getCapturados().contains(profugo2));
+		assertTrue(cazadorUrbano.getCapturados().contains(profugo3));
+		assertTrue(zona.getProfugos().isEmpty());
+
+	}
+
+	@Test
+	public void queUnCazadorCapturaALosProfugosQuePuedeEnUnaZonaConExitoYAlRestoLoIntimide() {
 		zona.agregarProfugo(profugo1);
 		zona.agregarProfugo(profugo2);
 		zona.agregarProfugo(profugo3);
 
-		cazador = new CazadorUrbano(100);
-		cazador.capturar(zona);
-		
-		assertEquals(cazador.getExperiencia(), Integer.valueOf(162));
-		
+		cazadorUrbano.capturar(zona);
+
+		assertEquals(Integer.valueOf(164), cazadorUrbano.getExperiencia());
+		assertTrue(cazadorUrbano.getCapturados().contains(profugo2));
+		assertTrue(cazadorUrbano.getCapturados().contains(profugo3));
 	}
 	
 	@Test
 	public void queAlSerCapturadoUnProfugoNoEsteMasEnLaZona() {
-		Zona zona = new Zona("Ciudad");
-		Profugo profugo1 = new Profugo("John", 10, 60, true);
-		zona.agregarProfugo(profugo1);
-		cazador = new CazadorUrbano(100);
-		cazador.capturar(zona);
+		Profugo profugoEliminado = new Profugo("Richard", 10, 20, false);
+		zona.agregarProfugo(profugoEliminado);
+		cazadorUrbano.capturar(zona);
 
-		assertTrue(zona.buscarProfugoPorNombre("John").equals(profugo1));
-		
-		
+		assertFalse(zona.getProfugos().contains(profugoEliminado));
+
 	}
-	
+
 }
