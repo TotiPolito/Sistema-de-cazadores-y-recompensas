@@ -9,7 +9,7 @@ import ar.edu.unlam.pb2.dominio.ArtesMarciales;
 import ar.edu.unlam.pb2.dominio.Cazador;
 import ar.edu.unlam.pb2.dominio.CazadorRural;
 import ar.edu.unlam.pb2.dominio.CazadorSigiloso;
-import ar.edu.unlam.pb2.dominio.Entrenamiento;
+import ar.edu.unlam.pb2.dominio.Entrenable;
 import ar.edu.unlam.pb2.dominio.EntrenamientoElite;
 import ar.edu.unlam.pb2.dominio.EntrenamientoInvalidoException;
 import ar.edu.unlam.pb2.dominio.HabilidadExcedidaException;
@@ -20,9 +20,9 @@ public class ProfugoTest {
 
 	private Cazador cazador;
 	private Profugo profugo;
-	private Entrenamiento artesMarciales;
-	private Entrenamiento entrenamientoElite;
-	private Entrenamiento proteccionLegal;
+	private Entrenable artesMarciales;
+	private Entrenable entrenamientoElite;
+	private Entrenable proteccionLegal;
 
 	@Before
 	public void setUp() {
