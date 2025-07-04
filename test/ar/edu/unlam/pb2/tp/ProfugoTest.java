@@ -15,6 +15,7 @@ import ar.edu.unlam.pb2.dominio.EntrenamientoInvalidoException;
 import ar.edu.unlam.pb2.dominio.HabilidadExcedidaException;
 import ar.edu.unlam.pb2.dominio.Profugo;
 import ar.edu.unlam.pb2.dominio.ProteccionLegal;
+import ar.edu.unlam.pb2.dominio.Zona;
 
 public class ProfugoTest {
 
@@ -45,7 +46,7 @@ public class ProfugoTest {
 
 	@Test
 	public void queUnProfugoPuedeHacerEntrenamientoDeEliteYnoPuedeSerNerviosoMas() {
-		cazador = new CazadorRural(10);
+		cazador = new CazadorRural("Pedro", 10);
 		profugo = new Profugo("John", 80, 30, false);
 		profugo.aplicarEntrenamientoElite();
 		cazador.intimidar(profugo);
@@ -57,7 +58,7 @@ public class ProfugoTest {
 	@Test
 	public void queUnProfugoPuedeTenerProteccionLegalYSuInocenciaNoDisminuyeDe40()
 			throws EntrenamientoInvalidoException {
-		cazador = new CazadorSigiloso(10);
+		cazador = new CazadorSigiloso("Pedro", 10);
 
 		profugo = new Profugo("John", 40, 40, false);
 
@@ -81,9 +82,9 @@ public class ProfugoTest {
 		entrenamientoElite.aplicarA(profugo);
 		proteccionLegal.aplicarA(profugo);
 
-		cazador = new CazadorSigiloso(5);
+		cazador = new CazadorSigiloso("Pedro", 5);
 
-		Cazador cazador2 = new CazadorRural(10);
+		Cazador cazador2 = new CazadorRural("Pedro", 10);
 		cazador.intimidar(profugo);
 		cazador2.intimidar(profugo);
 
@@ -91,10 +92,23 @@ public class ProfugoTest {
 		assertFalse(profugo.getEsNervioso());
 	}
 
+	@Test
+	public void queNoSePuedaCrearDosVecesElMismoProfugo() {
+		Zona zona = new Zona("Ciudad");
+	    Profugo profugo1 = new Profugo("Juan", 10, 20, true);
+	    Profugo profugo2 = new Profugo("Juan", 20, 10, false);
+	    zona.agregarProfugo(profugo1);
+	    zona.agregarProfugo(profugo2);
+	    assertTrue(zona.getProfugos().contains(profugo1));
+	    assertEquals(1, zona.getProfugos().size());
+	}
+	
+	
+	
 	@Test(expected = HabilidadExcedidaException.class)
 	public void queNoSePuedaAplicarArtesMarcialesSiSuperaHabilidadMaxima() throws HabilidadExcedidaException {
 		profugo = new Profugo("Luis", 10, 60, true);
-		profugo.aplicarArtesMarciales(); // 60 * 2 = 120 → excepción
+		profugo.aplicarArtesMarciales(); 
 
 	}
 

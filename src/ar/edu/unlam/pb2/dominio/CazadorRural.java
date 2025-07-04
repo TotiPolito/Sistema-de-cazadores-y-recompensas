@@ -2,8 +2,8 @@ package ar.edu.unlam.pb2.dominio;
 
 public class CazadorRural extends Cazador {
 
-	public CazadorRural(Integer nivelDeExperiencia) {
-		super(nivelDeExperiencia);
+	public CazadorRural(String nombre, Integer nivelDeExperiencia) {
+		super(nombre, nivelDeExperiencia);
 	}
 
 	@Override

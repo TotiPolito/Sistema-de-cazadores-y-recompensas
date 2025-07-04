@@ -26,9 +26,9 @@ public class CazadorTest {
 	@Before
 	public void setUp() {
 		zona = new Zona("Ciudad");
-		cazadorUrbano = new CazadorUrbano(100);
-		cazadorSigiloso = new CazadorSigiloso(100);
-		cazadorRural = new CazadorRural(100);
+		cazadorUrbano = new CazadorUrbano("Pedro", 100);
+		cazadorSigiloso = new CazadorSigiloso("Pedro", 100);
+		cazadorRural = new CazadorRural("Pedro", 100);
 		profugo = new Profugo("John", 10, 60, false);
 		profugo1 = new Profugo("Brian", 10, 60, true);
 		profugo2 = new Profugo("Michael", 20, 60, false);
@@ -37,7 +37,7 @@ public class CazadorTest {
 
 	@Test
 	public void queUnCazadorNoCaptureAUnProfugoConMayorInocencia() {
-		cazadorUrbano = new CazadorUrbano(50);
+		cazadorUrbano = new CazadorUrbano("Pedro", 50);
 		profugo = new Profugo("John", 80, 30, false);
 		zona = new Zona("Zona A");
 		zona.agregarProfugo(profugo);
@@ -81,16 +81,16 @@ public class CazadorTest {
 
 	@Test
 	public void queUnCazadorIntimideYDisminuyaElNivelDeInocenciaDelProfugo() {
-		cazadorSigiloso = new CazadorSigiloso(90);
-		cazadorUrbano = new CazadorUrbano(90);
-		cazadorRural = new CazadorRural(90);
+		cazadorSigiloso = new CazadorSigiloso("Pedro", 90);
+		cazadorUrbano = new CazadorUrbano("Pedro", 90);
+		cazadorRural = new CazadorRural("Pedro", 90);
 
 		profugo = new Profugo("John", 12, 60, false);
 
 		cazadorSigiloso.intimidar(profugo);
 		assertEquals(Integer.valueOf(10), profugo.getNivelDeInocencia());
 
-		cazadorUrbano.intimidar(profugo);
+		cazadorUrbano.intimidar(profugo); 
 		assertEquals(Integer.valueOf(8), profugo.getNivelDeInocencia());
 
 		cazadorRural.intimidar(profugo);
@@ -100,7 +100,7 @@ public class CazadorTest {
 
 	@Test
 	public void queUnCazadorSigilosoIntimideYLaHabilidadDelProfugoDisminuyaEn5Unidades() {
-		cazadorSigiloso = new CazadorSigiloso(100);
+		cazadorSigiloso = new CazadorSigiloso("Pedro", 100);
 		cazadorSigiloso.intimidar(profugo);
 		Integer obtenido = profugo.getNivelDeHabilidad();
 		assertEquals(Integer.valueOf(55), obtenido);
@@ -146,6 +146,15 @@ public class CazadorTest {
 		assertEquals(Integer.valueOf(164), cazadorUrbano.getExperiencia());
 		assertTrue(cazadorUrbano.getCapturados().contains(profugo2));
 		assertTrue(cazadorUrbano.getCapturados().contains(profugo3));
+	}
+	
+	@Test
+	public void queDosCazadoresConElMismoNombreSeanConsideradosIguales() {
+	    Cazador c1 = new CazadorUrbano("Pedro", 100);
+	    Cazador c2 = new CazadorUrbano("Pedro", 10); 
+
+	    assertTrue(c1.equals(c2)); 
+	    assertEquals(c1, c2);
 	}
 	
 	@Test

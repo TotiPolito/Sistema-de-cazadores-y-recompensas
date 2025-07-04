@@ -1,5 +1,7 @@
 package ar.edu.unlam.pb2.dominio;
 
+import java.util.Objects;
+
 public class Profugo {
 
 	private String nombre;
@@ -85,5 +87,21 @@ public class Profugo {
 
 	public void reducirHabilidad(Integer valor) {
 		nivelDeHabilidad = Math.max(0, nivelDeHabilidad - valor);
+	}
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Profugo other = (Profugo) obj;
+        return Objects.equals(nombre, other.nombre);
+    }
+	@Override
+	public int hashCode() {
+	    return Objects.hash(nombre);
 	}
 }

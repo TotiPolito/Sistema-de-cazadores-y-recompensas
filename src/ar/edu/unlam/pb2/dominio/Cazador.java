@@ -1,14 +1,17 @@
 package ar.edu.unlam.pb2.dominio;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public abstract class Cazador {
 
+	protected String nombre;
 	private Integer nivelDeExperiencia;
-	private List<Profugo> capturados = new ArrayList<>();
+	private Set<Profugo> capturados = new HashSet<>();
 
-	public Cazador(Integer nivelDeExperiencia) {
+	public Cazador(String nombre, Integer nivelDeExperiencia) {
+		this.nombre = nombre;
 		this.nivelDeExperiencia = nivelDeExperiencia;
 	}
 
@@ -18,9 +21,9 @@ public abstract class Cazador {
 
 	public void capturar(Zona zona) {
 
-		List<Profugo> listaProfugos = zona.getProfugos();
-		List<Profugo> intimidados = new ArrayList<>();
-		List<Profugo> capturadosZona = new ArrayList<>();
+		Set<Profugo> listaProfugos = zona.getProfugos();
+		Set<Profugo> intimidados = new HashSet<>();
+		Set<Profugo> capturadosZona = new HashSet<>();
 
 		intentoCapturaProfugos(listaProfugos, intimidados, capturadosZona);
 
@@ -29,12 +32,11 @@ public abstract class Cazador {
 		sumarExperiencia(intimidados, capturadosZona);
 	}
 
-	private void sumarExperiencia(List<Profugo> intimidados, List<Profugo> capturadosZona) {
+	private void sumarExperiencia(Set<Profugo> intimidados, Set<Profugo> capturadosZona) {
 		int minHabilidad = Integer.MAX_VALUE;
 
-		for (int i = 0; i < intimidados.size(); i++) {
-			int habilidad = intimidados.get(i).getNivelDeHabilidad();
-
+		for (Profugo profugo : capturadosZona) {
+			int habilidad = profugo.getNivelDeHabilidad();
 			if (habilidad < minHabilidad) {
 				minHabilidad = habilidad;
 			}
@@ -46,18 +48,18 @@ public abstract class Cazador {
 		nivelDeExperiencia += minHabilidad + (2 * capturadosZona.size());
 	}
 
-	private void eliminarProfugosCapturados(Zona zona, List<Profugo> capturadosZona) {
-		for (int i = 0; i < capturadosZona.size(); i++) {
-			zona.eliminarProfugo(capturadosZona.get(i));
+
+	private void eliminarProfugosCapturados(Zona zona, Set<Profugo> capturadosZona) {
+		for (Profugo profugo : capturadosZona) {
+			zona.eliminarProfugo(profugo);
 		}
+
 	}
 
-	private void intentoCapturaProfugos(List<Profugo> listaProfugos, List<Profugo> intimidados,
-			List<Profugo> capturadosZona) {
+	private void intentoCapturaProfugos(Set<Profugo> listaProfugos, Set<Profugo> intimidados,
+			Set<Profugo> capturadosZona) {
 
-		for (int i = 0; i < listaProfugos.size(); i++) {
-			Profugo profugo = listaProfugos.get(i);
-
+		for (Profugo profugo : listaProfugos) {
 			if (this.nivelDeExperiencia > profugo.getNivelDeInocencia() && puedeCapturar(profugo)) {
 				capturados.add(profugo);
 				capturadosZona.add(profugo);
@@ -66,14 +68,32 @@ public abstract class Cazador {
 				intimidados.add(profugo);
 			}
 		}
+
 	}
 
 	public Integer getExperiencia() {
 		return nivelDeExperiencia;
 	}
 
-	public List<Profugo> getCapturados() {
+	public Set<Profugo> getCapturados() {
 		return capturados;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(nombre);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cazador other = (Cazador) obj;
+		return Objects.equals(nombre, other.nombre);
 	}
 
 }

@@ -1,23 +1,23 @@
 package ar.edu.unlam.pb2.dominio;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Zona {
 
 	private String nombre;
-	private List<Profugo> profugos;
+	private Set<Profugo> profugos;
 
 	public Zona(String nombre) {
 		this.setNombre(nombre);
-		this.profugos = new ArrayList<>();
+		this.profugos = new HashSet<>();
 	}
 
 	public void agregarProfugo(Profugo profugo) {
 		profugos.add(profugo);
 	}
 
-	public List<Profugo> getProfugos() {
+	public Set<Profugo> getProfugos() {
 		return profugos;
 	}
 
@@ -28,5 +28,10 @@ public class Zona {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+	public String getNombre() {
+		return nombre;
+	}
+	
 
 }

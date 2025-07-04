@@ -29,8 +29,8 @@ public class AgenciaTest {
 	@Before
 	public void setUp() {
 		agencia = new Agencia();
-		cazadorUrbano = new CazadorUrbano(100);
-		cazadorRural = new CazadorRural(100);
+		cazadorUrbano = new CazadorUrbano("Pedro", 100);
+		cazadorRural = new CazadorRural("Pedro", 100);
 		profugo1 = new Profugo("Luis", 10, 20, false);
 		profugo2 = new Profugo("Pedro", 5, 30, false);
 		zona1 = new Zona("Ciudad");
@@ -39,7 +39,7 @@ public class AgenciaTest {
 	
 	@Test
 	public void queSePuedaRegistrarUnCazadorEnLaAgencia() {
-		cazadorUrbano = new CazadorUrbano(40);
+		cazadorUrbano = new CazadorUrbano("Pedro", 40);
 
 		agencia.agregarCazador(cazadorUrbano);
 
@@ -103,29 +103,46 @@ public class AgenciaTest {
 		assertEquals(cazadorUrbano, cazadorconMasCapturas);
 	}
 	
+	@Test
+	public void queNoSePuedaAgregarDosCazadoresConElMismoNombreALaAgencia() {
+	    Agencia agencia = new Agencia();
+
+	    Cazador cazador1 = new CazadorUrbano("Luis", 50);
+	    Cazador cazador2 = new CazadorUrbano("Luis", 80);
+
+	    agencia.agregarCazador(cazador1);
+	    agencia.agregarCazador(cazador2);
+
+	    assertEquals(1, agencia.getCazadores().size());
+	}
+	
+	@Test
+	public void quePuedoObtenerElNombreDeLaZona() {
+		assertEquals("Ciudad", zona1.getNombre());
+	}
+	
 	@Test(expected = NoHayCapturadosException.class)
 	public void queNoSePuedaDevolverProfugoMasHabilSiNoHayCapturados() throws NoHayCapturadosException {
-	    agencia.obtenerProfugoMasHabilCapturado(); // sin cazadores ni capturados
+	    agencia.obtenerProfugoMasHabilCapturado();
 	}
 
 	@Test(expected = NoHayCapturadosException.class)
 	public void queNoSePuedaDevolverCazadorConMasCapturasSiNoHayCazadores() throws NoHayCapturadosException {
-	    agencia.obtenerCazadorConMasCapturas(); // sin cazadores
+	    agencia.obtenerCazadorConMasCapturas();
 	}
 	
 	@Test(expected = NoHayCapturadosException.class)
 	public void queNoSePuedaDevolverCazadorConMasCapturasSiNadieCapturo() throws NoHayCapturadosException {
-		cazadorUrbano = new CazadorUrbano(10);
-		cazadorRural = new CazadorRural(20);
+		cazadorUrbano = new CazadorUrbano("Pedro", 10);
+		cazadorRural = new CazadorRural("Pedro", 20);
 	    agencia.agregarCazador(cazadorUrbano);
 	    agencia.agregarCazador(cazadorRural);
 	    
-	    agencia.obtenerCazadorConMasCapturas(); // ninguno capturo nada
+	    agencia.obtenerCazadorConMasCapturas();
 	}
 	
 	@Test
 	public void mensajeDeExcepcionCuandoNoHayProfugosCapturados() {
-	    // la agencia no tiene cazadores ni capturas
 
 	    try {
 	    	profugo1 = agencia.obtenerProfugoMasHabilCapturado();
